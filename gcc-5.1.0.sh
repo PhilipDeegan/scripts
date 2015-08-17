@@ -16,7 +16,7 @@ wget http://ftpmirror.gnu.org/mpfr/mpfr-3.1.3.tar.xz
 wget http://ftpmirror.gnu.org/gmp/gmp-6.0.0a.tar.xz
 wget http://ftpmirror.gnu.org/mpc/mpc-1.0.3.tar.gz
 for f in `ls`; do tar xf $f; done
-cd tar/linux-4.1.1
+cd linux-4.1.1
 make INSTALL_HDR_PATH=$OUT/x86_64-linux-gnu headers_install
 cd ..
 
