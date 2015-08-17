@@ -4,9 +4,8 @@
 #
 #
 DIR=`echo $PWD`
-mkdir gcc
+mkdir gcc tar build glibc
 OUT=$DIR/gcc
-mkdir tar
 cd tar
 wget https://ftp.gnu.org/gnu/gcc/gcc-5.1.0/gcc-5.1.0.tar.gz
 # wget http://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz
