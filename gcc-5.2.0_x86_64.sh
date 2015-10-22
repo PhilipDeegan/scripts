@@ -19,7 +19,7 @@ if [ ! -f ./mpfr-3.1.3.tar.xz ]; then wget http://ftpmirror.gnu.org/mpfr/mpfr-3.
 if [ ! -f ./gmp-6.0.0a.tar.xz ]; then wget http://ftpmirror.gnu.org/gmp/gmp-6.0.0a.tar.xz; fi
 if [ ! -f ./mpc-1.0.3.tar.gz ]; then wget http://ftpmirror.gnu.org/mpc/mpc-1.0.3.tar.gz; fi
 
-if [ ! -d ./gcc-5.2.0 ]; then tar xf gcc-5.1.0.tar.gz; fi
+if [ ! -d ./gcc-5.2.0 ]; then tar xf gcc-5.2.0.tar.gz; fi
 # if [ ! -d ./binutils-2.25 ]; then tar xf binutils-2.25.tar.gz; fi
 if [ ! -d ./linux-4.1.1 ]; then tar xf linux-4.1.1.tar.xz; fi
 if [ ! -d ./glibc-2.21 ]; then tar xf glibc-2.21.tar.xz; fi
