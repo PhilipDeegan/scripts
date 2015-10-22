@@ -21,8 +21,8 @@ if [ ! -f ./mpc-1.0.3.tar.gz ]; then wget http://ftpmirror.gnu.org/mpc/mpc-1.0.3
 
 if [ ! -d ./gcc-5.2.0 ]; then tar xf gcc-5.2.0.tar.gz; fi
 # if [ ! -d ./binutils-2.25 ]; then tar xf binutils-2.25.tar.gz; fi
-if [ ! -d ./linux-4.1.1 ]; then tar xf linux-4.1.1.tar.xz; fi
-if [ ! -d ./glibc-2.21 ]; then tar xf glibc-2.21.tar.xz; fi
+if [ ! -d ./linux-4.2.3 ]; then tar xf linux-4.2.3.tar.xz; fi
+if [ ! -d ./glibc-2.22 ]; then tar xf glibc-2.22.tar.xz; fi
 if [ ! -d ./mpfr-3.1.3 ]; then tar xf mpfr-3.1.3.tar.xz; fi
 if [ ! -d ./gmp-6.0.0 ]; then tar xf gmp-6.0.0a.tar.xz; fi
 if [ ! -d ./mpc-1.0.3 ]; then tar xf mpc-1.0.3.tar.gz; fi
