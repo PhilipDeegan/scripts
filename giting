@@ -1,0 +1,8 @@
+Reset commit history
+
+git checkout --orphan tmp
+git add -A
+git commit -am "reset"
+git branch -D master
+git branch -m master
+git push -f origin master
