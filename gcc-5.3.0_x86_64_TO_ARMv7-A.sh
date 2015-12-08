@@ -9,7 +9,7 @@ set -x
 
 TARGET=arm-linux-gnueabihf
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-OUT=$CWD/gcc_5.3_ARM32HF
+OUT=$CWD/gcc_5.3_ARMv7-A
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
@@ -38,7 +38,7 @@ cd ..
 rm -rf build-binutils
 mkdir -p build-binutils
 cd build-binutils
-../binutils-2.25/configure --prefix=$OUT --target=$TARGET --disable-nls 1> /dev/null
+../binutils-2.25/configure --prefix=$OUT --target=$TARGET --disable-nls --with-arch=armv7-a 1> /dev/null
 make -j6 1> /dev/null
 make install 1> /dev/null
 cd ..
@@ -50,13 +50,13 @@ ln -nsf ../mpfr-3.1.3 mpfr
 cd ../..
 
 cd build
-PATH=$OUT/bin:$PATH ../tar/gcc-5.3.0/configure --prefix=$OUT --enable-languages=c,c++ --target=$TARGET --disable-nls 1> /dev/null
+PATH=$OUT/bin:$PATH ../tar/gcc-5.3.0/configure --prefix=$OUT --enable-languages=c,c++ --target=$TARGET --disable-nls --with-arch=armv7-a 1> /dev/null
 PATH=$OUT/bin:$PATH make -j6 all-gcc 1> /dev/null
 PATH=$OUT/bin:$PATH make install-gcc 1> /dev/null
 cd ..
 
 cd glibc
-PATH=$OUT/bin:$PATH ../tar/glibc-2.22/configure --prefix=$OUT/$TARGET --build=$MACHTYPE --host=$TARGET --with-headers=$OUT/$TARGET/include libc_cv_forced_unwind=yes  1> /dev/null
+PATH=$OUT/bin:$PATH ../tar/glibc-2.22/configure --prefix=$OUT/$TARGET --build=$MACHTYPE --host=$TARGET --with-headers=$OUT/$TARGET/include libc_cv_forced_unwind=yes --with-arch=armv7-a 1> /dev/null
 PATH=$OUT/bin:$PATH make install-bootstrap-headers=yes install-headers 1> /dev/null
 PATH=$OUT/bin:$PATH make -j6 csu/subdir_lib 1> /dev/null
 mkdir -p  $OUT/$TARGET/lib
