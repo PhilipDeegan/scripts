@@ -6,11 +6,12 @@ set -x
 #
 DIR=`echo $PWD`
 TARGET=x86_64-linux-gnu
-OUT=$TARGET
+OUT=/home/philix/gcc_5.3
+rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
 set +x
-if [ ! -f ./gcc-5.2.0.tar.gz ]; then wget https://ftp.gnu.org/gnu/gcc/gcc-5.2.0/gcc-5.2.0.tar.gz; fi
+if [ ! -f ./gcc-5.3.0.tar.bz2 ]; then wget https://ftp.gnu.org/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2; fi
 # if [ ! -f ./binutils-2.25.tar.gz ]; then wget http://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz; fi
 if [ ! -f ./linux-4.2.3.tar.xz ]; then wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.2.3.tar.xz; fi
 if [ ! -f ./glibc-2.22.tar.xz ]; then wget http://ftpmirror.gnu.org/glibc/glibc-2.22.tar.xz; fi
@@ -18,7 +19,7 @@ if [ ! -f ./mpfr-3.1.3.tar.xz ]; then wget http://ftpmirror.gnu.org/mpfr/mpfr-3.
 if [ ! -f ./gmp-6.0.0a.tar.xz ]; then wget http://ftpmirror.gnu.org/gmp/gmp-6.0.0a.tar.xz; fi
 if [ ! -f ./mpc-1.0.3.tar.gz ]; then wget http://ftpmirror.gnu.org/mpc/mpc-1.0.3.tar.gz; fi
 
-if [ ! -d ./gcc-5.2.0 ]; then tar xf gcc-5.2.0.tar.gz; fi
+if [ ! -d ./gcc-5.3.0 ]; then tar xf gcc-5.3.0.tar.bz2; fi
 # if [ ! -d ./binutils-2.25 ]; then tar xf binutils-2.25.tar.gz; fi
 if [ ! -d ./linux-4.2.3 ]; then tar xf linux-4.2.3.tar.xz; fi
 if [ ! -d ./glibc-2.22 ]; then tar xf glibc-2.22.tar.xz; fi
@@ -31,14 +32,14 @@ cd linux-4.2.3
 make INSTALL_HDR_PATH=$OUT/$TARGET headers_install 1> /dev/null
 cd ..
 
-cd gcc-5.2.0
+cd gcc-5.3.0
 ln -nsf ../mpc-1.0.3 mpc
 ln -nsf ../gmp-6.0.0 gmp
 ln -nsf ../mpfr-3.1.3 mpfr
 cd ../..
 
 cd build
-../tar/gcc-5.2.0/configure --prefix=$OUT --enable-languages=c,c++  1> /dev/null
+../tar/gcc-5.3.0/configure --prefix=$OUT --enable-languages=c,c++  1> /dev/null
 make -j4 all-gcc 1> /dev/null
 make install-gcc 1> /dev/null
 cd ..

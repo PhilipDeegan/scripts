@@ -6,16 +6,16 @@ set -x
 # THIS SCRIPT BUILDS GLIBC AND INSTALLS TO PWD/gcc
 #
 #
+
 DIR=`echo $PWD`
 TARGET=aarch64-linux
-#OUT=$DIR/$TARGET
-OUT=/home/philix/gcc/$TARGET
+OUT=$TARGET
 mkdir -p build glibc tar $OUT
 cd tar
 set +x
 if [ ! -f ./gcc-5.1.0.tar.gz ]; then wget https://ftp.gnu.org/gnu/gcc/gcc-5.1.0/gcc-5.1.0.tar.gz; fi
 if [ ! -f ./binutils-2.25.tar.gz ]; then wget http://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz; fi
-if [ ! -f ./linux-4.1.1.tar.xz ]; then wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.1.1.tar.xz; fi
+if [ ! -f ./linux-4.2.3.tar.xz ]; then wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.2.3.tar.xz; fi
 if [ ! -f ./glibc-2.21.tar.xz ]; then wget http://ftpmirror.gnu.org/glibc/glibc-2.21.tar.xz; fi
 if [ ! -f ./mpfr-3.1.3.tar.xz ]; then wget http://ftpmirror.gnu.org/mpfr/mpfr-3.1.3.tar.xz; fi
 if [ ! -f ./gmp-6.0.0a.tar.xz ]; then wget http://ftpmirror.gnu.org/gmp/gmp-6.0.0a.tar.xz; fi
@@ -23,18 +23,19 @@ if [ ! -f ./mpc-1.0.3.tar.gz ]; then wget http://ftpmirror.gnu.org/mpc/mpc-1.0.3
 
 if [ ! -d ./gcc-5.1.0 ]; then tar xf gcc-5.1.0.tar.gz; fi
 if [ ! -d ./binutils-2.25 ]; then tar xf binutils-2.25.tar.gz; fi
-if [ ! -d ./linux-4.1.1 ]; then tar xf linux-4.1.1.tar.xz; fi
+if [ ! -d ./linux-4.2.3 ]; then tar xf linux-4.2.3.tar.xz; fi
 if [ ! -d ./glibc-2.21 ]; then tar xf glibc-2.21.tar.xz; fi
 if [ ! -d ./mpfr-3.1.3 ]; then tar xf mpfr-3.1.3.tar.xz; fi
 if [ ! -d ./gmp-6.0.0 ]; then tar xf gmp-6.0.0a.tar.xz; fi
 if [ ! -d ./mpc-1.0.3 ]; then tar xf mpc-1.0.3.tar.gz; fi
 
 set -x
-cd linux-4.1.1
+cd linux-4.2.3
 make ARCH=arm64 INSTALL_HDR_PATH=$OUT/$TARGET headers_install 1> /dev/null
 cd ..
 
-mkdir build-binutils
+rm -rf build-binutils
+mkdir -p build-binutils
 cd build-binutils
 ../binutils-2.25/configure --prefix=$OUT --target=$TARGET 1> /dev/null
 make -j6 1> /dev/null

@@ -8,7 +8,7 @@ set -x
 #
 
 DIR=`echo $PWD`
-TARGET=arm-linux-gnueabi
+TARGET=arm-linux-gnueabihf
 OUT=$TARGET
 mkdir -p build glibc tar $OUT
 cd tar
@@ -49,7 +49,7 @@ ln -nsf ../mpfr-3.1.3 mpfr
 cd ../..
 
 cd build
-PATH=$OUT/bin:$PATH ../tar/gcc-5.1.0/configure --prefix=$OUT --enable-languages=c,c++ --target=$TARGET --disable-multilib --with-float=soft --disable-nls 1> /dev/null
+PATH=$OUT/bin:$PATH ../tar/gcc-5.1.0/configure --prefix=$OUT --enable-languages=c,c++ --target=$TARGET --disable-multilib --with-float=hard --disable-nls 1> /dev/null
 PATH=$OUT/bin:$PATH make -j6 all-gcc 1> /dev/null
 PATH=$OUT/bin:$PATH make install-gcc 1> /dev/null
 cd ..
