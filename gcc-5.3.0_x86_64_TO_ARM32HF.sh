@@ -7,9 +7,9 @@ set -x
 #
 #
 
-DIR=`echo $PWD`
 TARGET=arm-linux-gnueabihf
-OUT=/media/philix/350GBEXT4/gcc_5.3_ARM32HF
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+OUT=$CWD/$TARGET
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
@@ -77,5 +77,5 @@ cd ..
 
 cd build
 PATH=$OUT/bin:$PATH make -j6 1> /dev/null
-PATH=$OUT/bin:$PATH make install 1> /dev/null			# if problems with "rcp/xdr.h" see https://gcc.gnu.org/bugzilla/show_bug.cgi?id=64839
+PATH=$OUT/bin:$PATH make install 1> /dev/null
 cd ..

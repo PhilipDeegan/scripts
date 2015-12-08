@@ -7,9 +7,9 @@ set -x
 #
 #
 
-DIR=`echo $PWD`
 TARGET=aarch64-linux
-OUT=$TARGET
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+OUT=$CWD/$TARGET
 mkdir -p build glibc tar $OUT
 cd tar
 set +x

@@ -4,9 +4,10 @@ set -x
 # THIS SCRIPT BUILDS GLIBC AND INSTALLS TO PWD/gcc
 #
 #
-DIR=`echo $PWD`
+
 TARGET=x86_64-linux-gnu
-OUT=/home/philix/gcc_5.3
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+OUT=$CWD/$TARGET
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
