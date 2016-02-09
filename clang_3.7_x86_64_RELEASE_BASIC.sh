@@ -1,10 +1,11 @@
 
-CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-mkdir -p $CWD
+OUT=
+mkdir -p $OUT
 svn co http://llvm.org/svn/llvm-project/llvm/tags/RELEASE_371/rc1 llvm
 cd llvm/tools
 svn co http://llvm.org/svn/llvm-project/cfe/tags/RELEASE_371/rc1/ clang
 cd ../..
+cd llvm/tools/clang/tools
 svn co http://llvm.org/svn/llvm-project/clang-tools-extra/tags/RELEASE_371/rc1/ extra
 cd ../../../..
 cd llvm/projects
@@ -12,6 +13,6 @@ svn co http://llvm.org/svn/llvm-project/compiler-rt/tags/RELEASE_371/rc1/ compil
 cd ../..
 mkdir build
 cd build
-../llvm/configure --prefix=$CWD --enable-optimized1> /dev/null
+../llvm/configure --prefix=$OUT --enable-optimized1> /dev/null
 make -j 4 1> /dev/null
 make install 1> /dev/null
