@@ -13,6 +13,6 @@ svn co http://llvm.org/svn/llvm-project/compiler-rt/tags/RELEASE_380/rc2/ compil
 cd ../..
 mkdir build
 cd build
-../llvm/configure --prefix=$OUT --enable-optimized1> /dev/null
-make -j 4 1> /dev/null
+../llvm/configure --prefix=$OUT --enable-optimized 1> /dev/null
+make -j 2 1> /dev/null
 make install 1> /dev/null
