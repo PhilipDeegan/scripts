@@ -1,20 +1,21 @@
-set -e
-set -x
 # BIN UTILS REQUIRES texinfo
 
 # THIS SCRIPT BUILDS GCC CROSS FOR ARM AND INSTALLS TO PWD/gcc/bin
 # THIS SCRIPT BUILDS GLIBC AND INSTALLS TO PWD/gcc
 #
-#
+# http://marcelog.github.io/articles/cross_freebsd_compiler_in_linux.html
+
+set -e
+# set -x
 
 TARGET=x86_64-freebsd10.1
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-THREADS=3
-OUT=/opt/chain/gcc_freebsd
+THREADS=6
+OUT=/mnt/8d49f032-eeb6-49c7-b3fb-3d1cad0a6dde/git/scripts/freebsd
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
-set +x
+# set +x
 if [ ! -f ./gcc-5.3.0.tar.bz2 ]; then wget https://ftp.gnu.org/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2; fi
 if [ ! -f ./binutils-2.25.tar.gz ]; then wget http://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz; fi
 if [ ! -f ./linux-4.3.3.tar.xz ]; then wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.3.3.tar.xz; fi
@@ -31,7 +32,7 @@ if [ ! -d ./mpfr-3.1.3 ]; then tar xf mpfr-3.1.3.tar.xz; fi
 if [ ! -d ./gmp-6.0.0 ]; then tar xf gmp-6.0.0a.tar.xz; fi
 if [ ! -d ./mpc-1.0.3 ]; then tar xf mpc-1.0.3.tar.gz; fi
 
-set -x
+# set -x
 cd linux-4.3.3
 make ARCH=arm INSTALL_HDR_PATH=$OUT/$TARGET headers_install 1> /dev/null
 cd ..
@@ -39,7 +40,7 @@ cd ..
 rm -rf build-binutils
 mkdir -p build-binutils
 cd build-binutils
-../binutils-2.25/configure --prefix=$OUT --target=$TARGET --disable-nls 1> /dev/null
+../binutils-2.25/configure --prefix=$OUT --target=$TARGET --disable-nls --enable-libssp --enable-gold --enable-ld 1> /dev/null
 make -j$THREADS 1> /dev/null
 make install 1> /dev/null
 cd ..
@@ -51,7 +52,7 @@ ln -nsf ../mpfr-3.1.3 mpfr
 cd ../..
 
 cd build
-PATH=$OUT/bin:$PATH ../tar/gcc-5.3.0/configure --prefix=$OUT --enable-languages=c,c++ --target=$TARGET --disable-nls 1> /dev/null
+PATH=$OUT/bin:$PATH ../tar/gcc-5.3.0/configure --prefix=$OUT --enable-languages=c,c++ --target=$TARGET --disable-nls --without-headers --with-gnu-as --with-gnu-ld --enable-languages=c,c++ --disable-nls --enable-libssp --enable-gold --enable-ld 1> /dev/null
 PATH=$OUT/bin:$PATH make -j$THREADS all-gcc 1> /dev/null
 PATH=$OUT/bin:$PATH make install-gcc 1> /dev/null
 cd ..

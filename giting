@@ -6,3 +6,13 @@ git commit -am "reset"
 git branch -D master
 git branch -m master
 git push -f origin master
+
+
+
+
+git checkout --orphan tmp
+git add -A
+git commit -am "stable"
+git branch -D stable
+git branch -m stable
+git push -f origin stable
