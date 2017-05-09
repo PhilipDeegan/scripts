@@ -6,13 +6,16 @@ set -x
 # THIS SCRIPT BUILDS GLIBC AND INSTALLS TO PWD/gcc
 #
 #
+CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 
 TARGET=aarch64-linux
-CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-OUT=$CWD/$TARGET
+OUT=/opt/chain/gcc5.1.0_aarch64
+THREADS=20
+rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
 set +x
+
 if [ ! -f ./gcc-5.1.0.tar.gz ]; then wget https://ftp.gnu.org/gnu/gcc/gcc-5.1.0/gcc-5.1.0.tar.gz; fi
 if [ ! -f ./binutils-2.25.tar.gz ]; then wget http://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz; fi
 if [ ! -f ./linux-4.2.3.tar.xz ]; then wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.2.3.tar.xz; fi
