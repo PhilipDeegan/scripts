@@ -1,9 +1,5 @@
-set -e
-set -x
-# THIS SCRIPT BUILDS GCC AND INSTALLS TO PWD/gcc/bin
-# THIS SCRIPT BUILDS GLIBC AND INSTALLS TO PWD/gcc
-#
-#
+
+set -ex
 
 TARGET=x86_64-linux-gnu
 OUT=/opt/chain/gcc7.1.0
