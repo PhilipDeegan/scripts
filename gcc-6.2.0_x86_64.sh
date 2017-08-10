@@ -6,7 +6,7 @@ set -x
 #
 
 TARGET=x86_64-linux-gnu
-OUT=~/app/gcc6.2.0
+OUT=/opt/chain/gcc6.2.0
 THREADS=4
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
