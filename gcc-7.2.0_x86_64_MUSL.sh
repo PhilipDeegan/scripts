@@ -16,7 +16,7 @@ set +x
 [ ! -f ./gcc-7.2.0.tar.gz ]     && wget https://ftp.gnu.org/gnu/gcc/gcc-7.2.0/gcc-7.2.0.tar.gz
 [ ! -f ./binutils-2.29.tar.gz ] && wget http://ftpmirror.gnu.org/binutils/binutils-2.29.tar.gz
 [ ! -f ./linux-4.11.12.tar.xz ] && wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.11.12.tar.xz
-[ ! -f ./musl-1.1.18.tar.gz ]   && wget http://git.musl-libc.org/cgit/musl/snapshot/musl-1.1.18.tar.gz
+[ ! -f ./musl-1.1.19.tar.gz ]   && wget http://git.musl-libc.org/cgit/musl/snapshot/musl-1.1.19.tar.gz
 [ ! -f ./mpfr-3.1.5.tar.xz ]    && wget http://ftpmirror.gnu.org/mpfr/mpfr-3.1.5.tar.xz
 [ ! -f ./gmp-6.1.2.tar.xz ]     && wget http://ftpmirror.gnu.org/gmp/gmp-6.1.2.tar.xz
 [ ! -f ./mpc-1.0.3.tar.gz ]     && wget http://ftpmirror.gnu.org/mpc/mpc-1.0.3.tar.gz
@@ -24,7 +24,7 @@ set +x
 [ ! -d ./gcc-7.2.0 ]     && tar xf gcc-7.2.0.tar.gz
 [ ! -d ./binutils-2.29 ] && tar xf binutils-2.29.tar.gz
 [ ! -d ./linux-4.11.12 ] && tar xf linux-4.11.12.tar.xz
-[ ! -d ./musl-1.1.18 ]   && tar xf musl-1.1.18.tar.gz
+[ ! -d ./musl-1.1.19 ]   && tar xf musl-1.1.19.tar.gz
 [ ! -d ./mpfr-3.1.5 ]    && tar xf mpfr-3.1.5.tar.xz
 [ ! -d ./gmp-6.1.2 ]     && tar xf gmp-6.1.2.tar.xz
 [ ! -d ./mpc-1.0.3 ]     && tar xf mpc-1.0.3.tar.gz
