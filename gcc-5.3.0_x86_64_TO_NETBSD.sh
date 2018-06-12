@@ -60,7 +60,7 @@ cd glibc
 PATH=$OUT/bin:$PATH ../tar/glibc-2.22/configure --prefix=$OUT/$TARGET --build=$MACHTYPE --host=$TARGET --with-headers=$OUT/$TARGET/include libc_cv_forced_unwind=yes 1> /dev/null
 PATH=$OUT/bin:$PATH make install-bootstrap-headers=yes install-headers 1> /dev/null
 PATH=$OUT/bin:$PATH make -j$THREADS csu/subdir_lib 1> /dev/null
-mkdir -p  $OUT/$TARGET/lib
+mkdir -p $OUT/$TARGET/lib 1> /dev/null
 PATH=$OUT/bin:$PATH install csu/crt1.o csu/crti.o csu/crtn.o $OUT/$TARGET/lib 1> /dev/null
 PATH=$OUT/bin:$PATH $TARGET-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o $OUT/$TARGET/lib/libc.so 1> /dev/null
 touch $OUT/$TARGET/include/gnu/stubs.h 1> /dev/null

@@ -15,7 +15,7 @@ OUT=/mnt/8d49f032-eeb6-49c7-b3fb-3d1cad0a6dde/git/scripts/freebsd
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
-# set +x
+set +x
 if [ ! -f ./gcc-5.3.0.tar.bz2 ]; then wget https://ftp.gnu.org/gnu/gcc/gcc-5.3.0/gcc-5.3.0.tar.bz2; fi
 if [ ! -f ./binutils-2.25.tar.gz ]; then wget http://ftpmirror.gnu.org/binutils/binutils-2.25.tar.gz; fi
 if [ ! -f ./linux-4.3.3.tar.xz ]; then wget https://www.kernel.org/pub/linux/kernel/v4.x/linux-4.3.3.tar.xz; fi
@@ -32,7 +32,7 @@ if [ ! -d ./mpfr-3.1.3 ]; then tar xf mpfr-3.1.3.tar.xz; fi
 if [ ! -d ./gmp-6.0.0 ]; then tar xf gmp-6.0.0a.tar.xz; fi
 if [ ! -d ./mpc-1.0.3 ]; then tar xf mpc-1.0.3.tar.gz; fi
 
-# set -x
+set -x
 cd linux-4.3.3
 make ARCH=arm INSTALL_HDR_PATH=$OUT/$TARGET headers_install 1> /dev/null
 cd ..
@@ -61,7 +61,7 @@ cd glibc
 PATH=$OUT/bin:$PATH ../tar/glibc-2.22/configure --prefix=$OUT/$TARGET --build=$MACHTYPE --host=$TARGET --with-headers=$OUT/$TARGET/include libc_cv_forced_unwind=yes 1> /dev/null
 PATH=$OUT/bin:$PATH make install-bootstrap-headers=yes install-headers 1> /dev/null
 PATH=$OUT/bin:$PATH make -j$THREADS csu/subdir_lib 1> /dev/null
-mkdir -p  $OUT/$TARGET/lib
+mkdir -p $OUT/$TARGET/lib 1> /dev/null
 PATH=$OUT/bin:$PATH install csu/crt1.o csu/crti.o csu/crtn.o $OUT/$TARGET/lib 1> /dev/null
 PATH=$OUT/bin:$PATH $TARGET-gcc -nostdlib -nostartfiles -shared -x c /dev/null -o $OUT/$TARGET/lib/libc.so 1> /dev/null
 touch $OUT/$TARGET/include/gnu/stubs.h 1> /dev/null
