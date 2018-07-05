@@ -9,7 +9,7 @@
 ##   apt-get install make python2.7 fakeroot libc++abi-dev libpci-dev
 #
 
-THREADS=5
+THREADS=6
 BUILD="$HOME/tmp/rocm"
 INSTALL="/opt/rocm_r"
 GITHUB="https://github.com/RadeonOpenCompute"
@@ -25,14 +25,19 @@ cd llvm_amd-common/tools/
 [ ! -d clang ] && git clone --depth 1 $GITHUB/clang clang
 
 rm -rf ../build && mkdir -p ../build && cd ../build
-cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC"-DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$INSTALL/clang4 -DLLVM_TARGET_TO_BUILD="AMDGPU;X86" ..
+cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC" \
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=$INSTALL/clang4 \
+      -DLLVM_TARGET_TO_BUILD="AMDGPU;X86" ..
 make -j$THREADS
 make install
 
 cd $BUILD
 [ ! -d thunk ] && git clone --depth 1 https://github.com/RadeonOpenCompute/ROCT-Thunk-Interface thunk
 cd thunk && mkdir -p build && cd build && \
-  cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC"-DCMAKE_MODULE_PATH=${PWD}/../cmake_modules -DCMAKE_INSTALL_PREFIX=$INSTALL ..
+  cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC" \
+        -DCMAKE_MODULE_PATH=${PWD}/../cmake_modules \
+        -DCMAKE_INSTALL_PREFIX=$INSTALL ..
 make clean && make -j$THREADS && make install
 cd ..
 cp -r include $INSTALL/libhsakmt
@@ -41,13 +46,15 @@ mkdir -p $INSTALL/lib && cd $INSTALL/lib
 for f in $(find $INSTALL/libhsakmt/lib -name "libhsa*.so*"); do ln -fs $f; done
 
 cd $BUILD
-[ ! -d runtime ] && git clone --depth 1 $GITHUB/ROCR-Runtime runtime -b roc-1.7.x
+[ ! -d runtime ] && git clone --depth 1 $GITHUB/ROCR-Runtime runtime -b master
 rm -rf runtime/build && mkdir -p runtime/build && cd runtime/build
-cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC"-DCMAKE_BUILD_TYPE=Debug -DCMAKE_INSTALL_PREFIX=$INSTALL \
-                -DHSAKMT_INC=$INSTALL/libhsakmt/include \
-                -DHSAKMT_LIB=$INSTALL/libhsakmt/lib \
-                -DHSAKMT_INC_PATH=$INSTALL/libhsakmt/include \
-                -DHSAKMT_LIB_PATH=$INSTALL/libhsakmt/lib ../src
+cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC"\
+      -DCMAKE_BUILD_TYPE=Release \
+      -DCMAKE_INSTALL_PREFIX=$INSTALL \
+      -DHSAKMT_INC=$INSTALL/libhsakmt/include \
+      -DHSAKMT_LIB=$INSTALL/libhsakmt/lib \
+      -DHSAKMT_INC_PATH=$INSTALL/libhsakmt/include \
+      -DHSAKMT_LIB_PATH=$INSTALL/libhsakmt/lib ../src
 make -j$THREADS && make install
 mkdir -p $INSTALL/lib && cd $INSTALL/lib
 for f in $(find $BUILD/runtime/build -name "libhsa*.so*"); do ln -fs $f; done
@@ -56,17 +63,24 @@ cd $BUILD
 [ ! -d devlibs ] && git clone --depth 1 $GITHUB/ROCm-Device-Libs devlibs
 rm -rf devlibs/build && mkdir -p devlibs/build &&
 cd devlibs/build
-CC=$LLVM_BUILD/bin/clang cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC"-DCMAKE_BUILD_TYPE=Debug \
-                -DCMAKE_INSTALL_PREFIX=$INSTALL/dlibs -DLLVM_DIR=$LLVM_BUILD ..
+CC=$LLVM_BUILD/bin/clang cmake \
+       -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC" \
+       -DCMAKE_BUILD_TYPE=Release \
+       -DCMAKE_INSTALL_PREFIX=$INSTALL/dlibs \
+       -DLLVM_DIR=$LLVM_BUILD ..
 CC=$LLVM_BUILD/bin/clang make -j$THREADS
 CC=$LLVM_BUILD/bin/clang make install
 
 cd $BUILD
 [ ! -d hcc ] && git clone --depth 1 --recursive -b clang_tot_upgrade https://github.com/RadeonOpenCompute/hcc
 rm -rf hcc/build && mkdir -p hcc/build && cd hcc/build
-CXX=$LLVM_BUILD/bin/clang++ CC=$LLVM_BUILD/bin/clang cmake -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC"-DCMAKE_BUILD_TYPE=Debug \
-               -DROCM_DEVICE_LIB_DIR=$INSTALL/dlibs/lib -DCMAKE_INSTALL_PREFIX=$INSTALL/hcc \
-               -DHSA_HEADER_DIR=$INSTALL/include -DHSA_LIBRARY_DIR=$INSTALL/lib ..
+CXX=$LLVM_BUILD/bin/clang++ CC=$LLVM_BUILD/bin/clang cmake \
+       -DCMAKE_CXXFLAGS="${CMAKE_CXXFLAGS} -fPIC" \
+       -DCMAKE_BUILD_TYPE=Debug \
+       -DROCM_DEVICE_LIB_DIR=$INSTALL/dlibs/lib \
+       -DCMAKE_INSTALL_PREFIX=$INSTALL/hcc \
+       -DHSA_HEADER_DIR=$INSTALL/include \
+       -DHSA_LIBRARY_DIR=$INSTALL/lib ..
 CXX=$LLVM_BUILD/bin/clang++ CC=$LLVM_BUILD/bin/clang make -j$THREADS world
 CXX=$LLVM_BUILD/bin/clang++ CC=$LLVM_BUILD/bin/clang make -j$THREADS
 CXX=$LLVM_BUILD/bin/clang++ CC=$LLVM_BUILD/bin/clang make install
