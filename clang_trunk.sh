@@ -1,7 +1,7 @@
 
 set -e
 OUT=/opt/chain/clang
-THREADS=8
+THREADS=20
 mkdir -p $OUT
 svn co http://llvm.org/svn/llvm-project/llvm/trunk llvm
 cd llvm/tools
