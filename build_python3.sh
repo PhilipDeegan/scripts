@@ -2,6 +2,7 @@ exit 1 # this file isn't valid, more to read/copy
 
 THREADS=8
 # sudo apt-get install -y git  build-essential libbz2-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev
+#   liblzma-dev lzma
 
 BASE_DIR=/opt/py/python-3.9.4
 
