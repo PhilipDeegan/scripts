@@ -1,8 +1,9 @@
 exit 1 # this file isn't valid, more to read/copy
 
 THREADS=8
-# sudo apt-get install -y git  build-essential libbz2-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev
-#   liblzma-dev lzma
+
+# debian: apt-get install -y git build-essential libbz2-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev liblzma-dev
+# rhel  : dnf install -y git openssl-devel bzip2-devel libffi-devel xz-devel sqlite-devel readline-devel
 
 BASE_DIR=/opt/py/python-3.9.4
 
