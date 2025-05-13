@@ -5,7 +5,7 @@ THREADS=8
 # debian: apt-get install -y git build-essential libbz2-dev libssl-dev libreadline-dev libffi-dev libsqlite3-dev tk-dev liblzma-dev
 # rhel  : dnf install -y git openssl-devel bzip2-devel libffi-devel xz-devel sqlite-devel readline-devel
 
-BASE_DIR=/opt/py/python-3.9.4
+BASE_DIR=/opt/py/python-3.11.4_sqlite
 
 ./configure CFLAGS="-g3 -O3 -march=native -fPIC -I/usr/include/openssl" \
   CXXFLAGS="-g3 -O3 -march=native -fPIC -I/usr/include/openssl" \
