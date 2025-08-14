@@ -11,7 +11,6 @@ BASE_DIR=/opt/py/python-3.11.4_sqlite
   CXXFLAGS="-g3 -O3 -march=native -fPIC -I/usr/include/openssl" \
   --enable-shared LDFLAGS="-L/usr/lib -L/usr/lib/x86_64-linux-gnu -Wl,-rpath=${BASE_DIR}/lib:/usr/lib/x86_64-linux-gnu" \
   --prefix=${BASE_DIR} \
-  --enable-optimizations --with-ensurepip=install 
+  --enable-optimizations --with-ensurepip=install --disable-gil
 
-make PROFILE_TASK="-m test.regrtest --pgo -j$THREADS" -j$THREADS
-make PROFILE_TASK="-m test.regrtest --pgo -j$THREADS" -j$THREADS install
+make PROFILE_TASK="-m test.regrtest --pgo -j$THREADS" -j$THREADS && make PROFILE_TASK="-m test.regrtest --pgo -j$THREADS" -j$THREADS install
