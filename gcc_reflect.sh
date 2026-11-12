@@ -1,40 +1,43 @@
 #!/usr/bin/env bash
+
 set -ex
 CWD="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-CFG="-O3 -march=native -funroll-loops -ftree-vectorize "
+CFG="-O3 -march=native -funroll-loops -ftree-vectorize -fPIC"
 
-GCCVV="gcc-9.2.0"
-LINUX="linux-5.2.1"
-GLIBC="glibc-2.30"
-BINUT="binutils-2.33.1"
-MPFRR="mpfr-4.0.2"
-GMP="gmp-6.1.2"
-MPC="mpc-1.1.0"
+GCCVV="reflection"
+LINUX_MAJ="6"
+LINUX="linux-${LINUX_MAJ}.12.57"
+GLIBC="glibc-2.41"
+BINUT="binutils-2.44"
+MPFRR="mpfr-4.2.2"
+GMP="gmp-6.3.0"
+MPC="mpc-1.3.1"
 
 TARGET=x86_64-linux-gnu
 OUT=/opt/chain/${GCCVV}
-THREADS="${THREADS:-12}"
+THREADS="${THREADS:-8}"
+echo $THREADS
 
 rm -rf build glibc $OUT
 mkdir -p build glibc tar $OUT
 cd tar
 set +x
 
-[ ! -f ./${GCCVV}.tar.gz ]  && wget https://ftp.gnu.org/gnu/gcc/${GCCVV}/${GCCVV}.tar.gz
+# [ ! -f ./${GCCVV}.tar.gz ]  && wget https://ftp.gnu.org/gnu/gcc/${GCCVV}/${GCCVV}.tar.gz
 [ ! -f ./${BINUT}.tar.gz ]  && wget http://ftpmirror.gnu.org/binutils/${BINUT}.tar.gz
-[ ! -f ./${LINUX}.tar.xz ]  && wget https://www.kernel.org/pub/linux/kernel/v5.x/${LINUX}.tar.xz
+[ ! -f ./${LINUX}.tar.xz ]  && wget https://www.kernel.org/pub/linux/kernel/v${LINUX_MAJ}.x/${LINUX}.tar.xz
 [ ! -f ./${GLIBC}.tar.xz ]  && wget http://ftpmirror.gnu.org/glibc/${GLIBC}.tar.xz
 [ ! -f ./${MPFRR}.tar.xz ]  && wget http://ftpmirror.gnu.org/mpfr/${MPFRR}.tar.xz
-[ ! -f ./${GMP}.tar.xz ] && wget http://ftpmirror.gnu.org/gmp/${GMP}.tar.xz
-[ ! -f ./${MPC}.tar.gz ] && wget http://ftpmirror.gnu.org/mpc/${MPC}.tar.gz
+[ ! -f ./${GMP}.tar.xz ]    && wget http://ftpmirror.gnu.org/gmp/${GMP}.tar.xz
+[ ! -f ./${MPC}.tar.gz ]    && wget http://ftpmirror.gnu.org/mpc/${MPC}.tar.gz
 
-[ ! -d ./${GCCVV} ]  && tar xf ${GCCVV}.tar.gz
+[ ! -d ./${GCCVV} ]  && git clone https://forge.sourceware.org/marek/gcc -b "$GCCVV" "$GCCVV" --depth 10
 [ ! -d ./${BINUT} ]  && tar xf ${BINUT}.tar.gz
 [ ! -d ./${LINUX} ]  && tar xf ${LINUX}.tar.xz
 [ ! -d ./${GLIBC} ]  && tar xf ${GLIBC}.tar.xz
 [ ! -d ./${MPFRR} ]  && tar xf ${MPFRR}.tar.xz
-[ ! -d ./${GMP} ] && tar xf ${GMP}.tar.xz
-[ ! -d ./${MPC} ] && tar xf ${MPC}.tar.gz
+[ ! -d ./${GMP} ]    && tar xf ${GMP}.tar.xz
+[ ! -d ./${MPC} ]    && tar xf ${MPC}.tar.gz
 
 set -x
 cd ${LINUX}
@@ -80,6 +83,7 @@ cd glibc
 make SHELL='sh' CFLAGS="${CFG}" -j$THREADS 1> /dev/null
 make SHELL='sh' CFLAGS="${CFG}" install 1> /dev/null
 cd ..
+
 
 cd build
 make SHELL='sh' CFLAGS="${CFG}" -j$THREADS 1> /dev/null
